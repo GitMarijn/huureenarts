@@ -1,0 +1,19 @@
+.confirmation-wrapper {
+  height: calc(100vh - 82px);
+  width: 100%;
+  color: #0099d5;
+  display: flex;
+  align-items: center;
+  padding: 50px 10px 0 10px;
+  flex-direction: column;
+}
+
+.confirmation-wrapper > span {
+  width: 90%;
+  text-align: center;
+}
+
+.fa-check-circle {
+  font-size: 100px;
+  margin-top: 50px;
+}

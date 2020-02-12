@@ -1,0 +1,148 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+}
+
+header {
+  color: white;
+  background-color: #0099d5;
+  height: 82px;
+  display: flex !important;
+  flex-direction: row;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  border-bottom: solid 2px #c6c6c6;
+}
+
+nav {
+  display: flex;
+  color: white;
+  align-items: flex-end;
+  font-size: 14px;
+}
+
+.ul-header {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+}
+
+li {
+  list-style: none;
+  margin-right: 25px;
+  width: 70px;
+  display: flex;
+}
+
+ul li:last-child {
+  margin-right: 0;
+}
+
+a:link,
+a:visited,
+a:active {
+  color: white;
+  text-decoration: none;
+}
+
+li:hover {
+  text-decoration: underline solid #c6c6c6;
+}
+
+.headercenter {
+  width: 33.33%;
+  height: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+}
+
+.headertext_wrapper {
+  letter-spacing: 0.2em;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  width: 75px;
+  height: 75px;
+  justify-content: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+.headertext {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.heading_text {
+  color: #0099d5;
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
+  margin-top: -64px;
+  padding-top: 84px;
+  letter-spacing: 0.1em;
+}
+
+.footer {
+  background-color: #0099d5;
+  color: white;
+  height: 300px;
+}
+
+.mobile-nav {
+  height: 20px;
+  font-size: 14px;
+  background-color: #0099d5;
+  color: white;
+  display: flex;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px;
+  z-index: 5;
+  border-bottom: solid 2px #c6c6c6;
+  justify-content: center;
+}
+
+.ul-mobile {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+}
+
+@media only screen and (max-width: 850px) {
+  .header-right {
+    display: none;
+  }
+
+  .ul-header {
+    display: none;
+  }
+
+  header {
+    border-bottom: none;
+    height: 60px;
+  }
+
+  .headertext_wrapper {
+    height: 50px;
+    width: 50px;
+    font-size: 11px;
+  }
+}
+
+@media only screen and (min-width: 850px) {
+  .mobile-nav {
+    display: none;
+  }
+}
