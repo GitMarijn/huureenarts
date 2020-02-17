@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const router = express.Router();
 const MongoClient = require("mongodb").MongoClient;
 const User = require("../server/models/User");
+const keys = require("../server/config/keys");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 MongoClient.connect(
-  "mongodb+srv://artshuren:kedbid-vatsaB-cozjy4@cluster0-gatgd.gcp.mongodb.net/test?retryWrites=true&w=majority",
+  keys.mongoURI,
   { useUnifiedTopology: true, useNewUrlParser: true },
   (err, db) => {
     var dbase = db.db("huureenarts");
@@ -31,6 +32,7 @@ MongoClient.connect(
 
     router.post("/user/signup", (req, res) => {
       const {
+        geslacht,
         voornaam,
         tussenvoegsel,
         achternaam,
@@ -44,8 +46,15 @@ MongoClient.connect(
         telefoon,
         email,
         email2,
+        vaardigheid,
         specialisme
       } = req.body;
+      if (!geslacht) {
+        return res.send({
+          success: false,
+          message: "Error: Geslacht is required"
+        });
+      }
       if (!voornaam) {
         return res.send({
           success: false,
@@ -112,12 +121,12 @@ MongoClient.connect(
           message: "Error: Emailverificatie is required"
         });
       }
-      // if (!specialisme) {
-      //   return res.send({
-      //     success: false,
-      //     message: "Error: Specialisme is required"
-      //   });
-      // }
+      if (!specialisme) {
+        return res.send({
+          success: false,
+          message: "Error: Specialisme is required"
+        });
+      }
 
       dbase
         .collection("users")
@@ -131,6 +140,7 @@ MongoClient.connect(
             });
 
           const user = new User();
+          user.geslacht = geslacht;
           user.voornaam = voornaam;
           user.tussenvoegsel = tussenvoegsel;
           user.achternaam = achternaam;
@@ -144,6 +154,7 @@ MongoClient.connect(
           user.telefoon = telefoon;
           user.email = email;
           user.email2 = email2;
+          user.vaardigheid = vaardigheid;
           user.specialisme = specialisme;
 
           dbase.collection("users").save(user, (err, result) => {

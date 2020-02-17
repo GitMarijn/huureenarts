@@ -1,12 +1,23 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const keys = require("../config/keys");
 
-mongoose.connect(
-  "mongodb+srv://artshuren:kedbid-vatsaB-cozjy4@cluster0-gatgd.gcp.mongodb.net/test?retryWrites=true&w=majority",
-  { useUnifiedTopology: true, useNewUrlParser: true }
-);
+// mongoose.connect(
+//   "mongodb+srv://artshuren:kedbid-vatsaB-cozjy4@cluster0-gatgd.gcp.mongodb.net/test?retryWrites=true&w=majority",
+//   { useUnifiedTopology: true, useNewUrlParser: true }
+// );
+
+mongoose.connect(keys.mongoURI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 const UserSchema = new Schema({
+  geslacht: {
+    type: String,
+    default: "",
+    required: true
+  },
   voornaam: {
     type: String,
     default: "",
@@ -71,6 +82,10 @@ const UserSchema = new Schema({
     type: String,
     default: "",
     required: true
+  },
+  vaardigheid: {
+    type: Map,
+    of: Boolean
   },
   specialisme: {
     type: String,

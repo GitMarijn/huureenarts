@@ -9,6 +9,7 @@ class IkBenArts extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      geslacht: "",
       voornaam: "",
       tussenvoegsel: "",
       achternaam: "",
@@ -22,7 +23,11 @@ class IkBenArts extends React.Component {
       telefoon: "",
       email: "",
       email2: "",
-      specialisme: ""
+      specialisme: "",
+      vaardigheid: {
+        BLS: false,
+        ALS: false
+      }
     };
   }
 
@@ -35,11 +40,22 @@ class IkBenArts extends React.Component {
   }
 
   loadImage(event) {
-    var image = document.getElementById("output");
-    var icon = document.getElementById("userIcon");
+    let image = document.getElementById("output");
+    let icon = document.getElementById("userIcon");
+
     image.src = URL.createObjectURL(event.target.files[0]);
     icon.parentNode.removeChild(icon);
   }
+
+  handleChecked = event => {
+    let updatedCheckbox = Object.assign({}, this.state.vaardigheid, {
+      [event.target.name]: event.target.checked
+    });
+
+    this.setState({
+      vaardigheid: updatedCheckbox
+    });
+  };
 
   handleChange = event => {
     this.setState({
@@ -52,14 +68,16 @@ class IkBenArts extends React.Component {
     this.setState({
       isLoading: true
     });
-
+    console.log(this.state.vaardigheid);
     fetch("/api/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
       },
       body:
-        "voornaam=" +
+        "geslacht=" +
+        this.state.geslacht +
+        "&voornaam=" +
         this.state.voornaam +
         "&tussenvoegsel=" +
         this.state.tussenvoegsel +
@@ -85,16 +103,20 @@ class IkBenArts extends React.Component {
         this.state.email +
         "&email2=" +
         this.state.email2 +
-        "specialisme=" +
+        "&vaardigheid=" +
+        this.state.vaardigheid +
+        "&specialisme=" +
         this.state.specialisme
     })
       .then(res => res.json())
       .then(json => {
         console.log("json", json);
+        console.log(this.state.vaardigheid);
         if (json.success) {
           this.setState({
             signUpError: json.message,
             isLoading: false,
+            geslacht: "",
             voornaam: "",
             tussenvoegsel: "",
             achternaam: "",
@@ -108,6 +130,10 @@ class IkBenArts extends React.Component {
             telefoon: "",
             email: "",
             email2: "",
+            vaardigheid: {
+              BLS: false,
+              ALS: false
+            },
             specialisme: ""
           });
           this.props.history.push("/ikbenarts/confirmation");
@@ -144,6 +170,8 @@ class IkBenArts extends React.Component {
               id="vrouw"
               value="vrouw"
               required
+              checked={this.state.geslacht === "vrouw"}
+              onChange={this.handleChange}
             />
             <label className="form-check-label" htmlFor="geslacht">
               Vrouw*
@@ -156,6 +184,8 @@ class IkBenArts extends React.Component {
               name="geslacht"
               id="man"
               value="man"
+              checked={this.state.geslacht === "man"}
+              onChange={this.handleChange}
             />
             <label className="form-check-label" htmlFor="man">
               Man*
@@ -337,8 +367,9 @@ class IkBenArts extends React.Component {
                 type="checkbox"
                 className="form-check-input"
                 id="inlineCheckbox1"
-                name="vaardigheid"
-                value="BLS"
+                name="BLS"
+                onChange={this.handleChecked}
+                value={this.state.vaardigheid["BLS"]}
               />
               <label className="form-check-label" htmlFor="inlineCheckbox1">
                 Basic Life Support Diploma
@@ -349,13 +380,15 @@ class IkBenArts extends React.Component {
                 type="checkbox"
                 className="form-check-input"
                 id="inlineCheckbox2"
-                name="vaardigheid"
-                value="ALS"
+                name="ALS"
+                onChange={this.handleChecked}
+                value={this.state.vaardigheid["ALS"]}
               />
               <label className="form-check-label" htmlFor="inlineCheckbox2">
                 Advanced Life Support Diploma
               </label>
             </div>
+
             <div className="form-group col-sm-4">
               <select
                 className="custom-select"
@@ -367,9 +400,32 @@ class IkBenArts extends React.Component {
                 <option value="DEFAULT" hidden>
                   Specialisme*
                 </option>
-                <option value="one">One</option>
-                <option value="two">Two</option>
-                <option value="three">Three</option>
+                <option value="Anesthesiologie">Anesthesiologie</option>
+                <option value="Bedrijfsgeneeskunde">Bedrijfsgeneeskunde</option>
+                <option value="Dermatologie">Dermatologie</option>
+                <option value="Gynaecologie_en_verloskunde">
+                  Gynaecologie en verloskunde
+                </option>
+                <option value="Huisartsgeneeskunde">Huisartsgeneeskunde</option>
+                <option value="Interne_geneeskunde">Interne geneeskunde</option>
+                <option value="Keel-neus-oorheelkunde_(KNO)">
+                  Keel-neus-oorheelkunde (KNO)
+                </option>
+                <option value="Kindergeneeskunde">Kindergeneeskunde</option>
+                <option value="Medische_microbiologie">
+                  Medische microbiologie
+                </option>
+                <option value="Neurologie">Neurologie</option>
+                <option value="Oogheelkunde">Oogheelkunde</option>
+                <option value="Ouderengeneeskunde">Ouderengeneeskunde</option>
+                <option value="Pathologie">Pathologie</option>
+                <option value="Psychiatrie">Psychiatrie</option>
+                <option value="Radiologie">Radiologie</option>
+                <option value="Spoedeisende_Hulp">Spoedeisende Hulp</option>
+                <option value="Verzekeringsgeneeskunde">
+                  Verzekeringsgeneeskunde
+                </option>
+                <option value="Anders">Anders</option>
               </select>
             </div>
           </div>

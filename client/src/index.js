@@ -27,6 +27,5 @@ ReactDOM.render(
   <Provider store={store}>{routing}</Provider>,
   document.getElementById("root")
 );
-// ReactDOM.render(routing, document.getElementById("root"));
 
 serviceWorker.unregister();
