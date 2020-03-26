@@ -1,0 +1,18 @@
+.user-card {
+  color: black;
+}
+
+.searchbar {
+  border-radius: 4px;
+}
+
+.user-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-card {
+  height: 300px;
+  width: 200px;
+  display: flex;
+}

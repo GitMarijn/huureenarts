@@ -1,20 +1,20 @@
 const initState = {
-  user: {},
-  userIsLoading: true
+  users: [],
+  usersIsLoading: true
 };
 
 export const rootReducer = (state = initState, action) => {
-  if (action.type === "GET_USER") {
+  if (action.type === "GET_USERS") {
     state = {
       ...state,
-      user: action.user.user
+      users: action.users
     };
   }
 
-  if (action.type === "USER_IS_LOADING") {
+  if (action.type === "USERS_IS_LOADING") {
     state = {
       ...state,
-      userIsLoading: action.userIsLoading
+      usersIsLoading: action.usersIsLoading
     };
   }
   return state;

@@ -13,9 +13,9 @@ function LandingPage() {
     <div>
       <Header />
       <div className="landingpage landingpage_container">
-        <div className="landingpage left">
+        <Link to="/huureenarts" className="landingpage left">
           <span>Huur een arts</span>
-        </div>
+        </Link>
         <i className="fa fa-chevron-down"></i>
         <Link to="/ikbenarts" className="landingpage right">
           <span>Ik ben arts</span>

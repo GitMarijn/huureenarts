@@ -9,6 +9,7 @@ import { rootReducer } from "./store/reducers/rootReducer";
 import LandingPage from "./containers/LandingPage";
 import IkBenArts from "./containers/IkBenArts";
 import SignUpConfirmation from "../src/containers/SignUpConfirmation";
+import HuurEenArts from "../src/containers/HuurEenArts";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -18,6 +19,7 @@ const routing = (
       <Route exact path="/" component={LandingPage} />
       <Route path="/home" component={LandingPage} />
       <Route exact path="/ikbenarts" component={IkBenArts} />
+      <Route exact path="/huureenarts" component={HuurEenArts} />
       <Route path="/ikbenarts/confirmation" component={SignUpConfirmation} />
     </div>
   </Router>

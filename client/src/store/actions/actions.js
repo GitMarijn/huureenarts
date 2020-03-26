@@ -1,13 +1,25 @@
-export const getUser = user => {
+export const getUsers = users => {
   return {
-    type: "GET_USER",
-    user
+    type: "GET_USERS",
+    users
   };
 };
 
-export const userIsLoading = userIsLoading => {
+export const usersIsLoading = usersIsLoading => {
   return {
-    type: "USER_IS_LOADING",
-    userIsLoading
+    type: "USERS_IS_LOADING",
+    usersIsLoading
+  };
+};
+
+export const fetchUsers = () => {
+  return dispatch => {
+    fetch("/api/users")
+      .then(response => response.json())
+      .then(result => {
+        dispatch(getUsers(result));
+        dispatch(usersIsLoading(false));
+      })
+      .catch(e => console.log(e));
   };
 };

@@ -27,7 +27,8 @@ class IkBenArts extends React.Component {
       vaardigheid: {
         BLS: false,
         ALS: false
-      }
+      },
+      profilePic: null
     };
   }
 
@@ -36,22 +37,24 @@ class IkBenArts extends React.Component {
       isLoading: false
     });
 
-    document.title = "Ik ben arts - Huur een arts";
+    document.title = "Ik ben arts -  Huur een arts";
   }
 
-  loadImage(event) {
+  loadImage = event => {
     let image = document.getElementById("output");
     let icon = document.getElementById("userIcon");
+    this.setState({
+      profilePic: event.target.files[0]
+    });
 
     image.src = URL.createObjectURL(event.target.files[0]);
     icon.parentNode.removeChild(icon);
-  }
+  };
 
   handleChecked = event => {
     let updatedCheckbox = Object.assign({}, this.state.vaardigheid, {
       [event.target.name]: event.target.checked
     });
-
     this.setState({
       vaardigheid: updatedCheckbox
     });
@@ -65,53 +68,43 @@ class IkBenArts extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
     this.setState({
       isLoading: true
     });
-    console.log(this.state.vaardigheid);
+
+    const formData = new FormData();
+
+    formData.append("geslacht", this.state.geslacht);
+    formData.append("voornaam", this.state.voornaam);
+    formData.append("tussenvoegsel", this.state.tussenvoegsel);
+    formData.append("achternaam", this.state.achternaam);
+    formData.append("geboortedatum", this.state.geboortedatum);
+    formData.append("bigregnr", this.state.bigregnr);
+    formData.append("straatnaam", this.state.straatnaam);
+    formData.append("huisnummer", this.state.huisnummer);
+    formData.append("toevoeging", this.state.toevoeging);
+    formData.append("postcode", this.state.postcode);
+    formData.append("plaatsnaam", this.state.plaatsnaam);
+    formData.append("telefoon", this.state.telefoon);
+    formData.append("email", this.state.email);
+    formData.append("email2", this.state.email2);
+    formData.append("vaardigheid", this.state.vaardigheid);
+    formData.append("specialisme", this.state.specialisme);
+    formData.append("image", this.state.profilePic);
+
+    console.log(...formData);
+
     fetch("/api/user/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-      },
-      body:
-        "geslacht=" +
-        this.state.geslacht +
-        "&voornaam=" +
-        this.state.voornaam +
-        "&tussenvoegsel=" +
-        this.state.tussenvoegsel +
-        "&achternaam=" +
-        this.state.achternaam +
-        "&geboortedatum=" +
-        this.state.geboortedatum +
-        "&bigregnr=" +
-        this.state.bigregnr +
-        "&straatnaam=" +
-        this.state.straatnaam +
-        "&huisnummer=" +
-        this.state.huisnummer +
-        "&toevoeging=" +
-        this.state.toevoeging +
-        "&postcode=" +
-        this.state.postcode +
-        "&plaatsnaam=" +
-        this.state.plaatsnaam +
-        "&telefoon=" +
-        this.state.telefoon +
-        "&email=" +
-        this.state.email +
-        "&email2=" +
-        this.state.email2 +
-        "&vaardigheid=" +
-        this.state.vaardigheid +
-        "&specialisme=" +
-        this.state.specialisme
+      // headers: {
+      //   "Content-Type": "multipart/form-data"
+      // },
+      body: formData
     })
       .then(res => res.json())
       .then(json => {
         console.log("json", json);
-        console.log(this.state.vaardigheid);
         if (json.success) {
           this.setState({
             signUpError: json.message,
@@ -134,11 +127,11 @@ class IkBenArts extends React.Component {
               BLS: false,
               ALS: false
             },
-            specialisme: ""
+            specialisme: "",
+            profilePic: null
           });
           this.props.history.push("/ikbenarts/confirmation");
         } else {
-          console.log(this.state);
           this.setState({
             signUpError: json.message,
             isLoading: false
@@ -157,7 +150,11 @@ class IkBenArts extends React.Component {
           <span>Ik ben arts</span>
         </div>
 
-        <form id="signup-form" onSubmit={this.handleSubmit}>
+        <form
+          id="signup-form"
+          encType="multipart/form-data"
+          onSubmit={this.handleSubmit}
+        >
           <div className="form_heading">
             <span>Persoonlijk</span>
           </div>

@@ -1,10 +1,35 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs-extra");
+const util = require("util");
 const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require("mongodb").ObjectId;
 const User = require("../server/models/User");
 const keys = require("../server/config/keys");
 
+const storage = multer.diskStorage({
+  destination: "./public/",
+  filename: function(req, file, cb) {
+    cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/jpg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(new Error("Image uploaded is not of type .jpg/.jpeg or .png"), false);
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -30,7 +55,7 @@ MongoClient.connect(
         });
     });
 
-    router.post("/user/signup", (req, res) => {
+    router.post("/user/signup", upload.single("image"), (req, res) => {
       const {
         geslacht,
         voornaam,
@@ -49,6 +74,11 @@ MongoClient.connect(
         vaardigheid,
         specialisme
       } = req.body;
+
+      const profilePic = req.file;
+      console.log("Request ---", req.body);
+      console.log("Request file ---", req.file);
+
       if (!geslacht) {
         return res.send({
           success: false,
@@ -127,6 +157,12 @@ MongoClient.connect(
           message: "Error: Specialisme is required"
         });
       }
+      if (!profilePic) {
+        return res.send({
+          success: false,
+          message: "Error: Photo is required"
+        });
+      }
 
       dbase
         .collection("users")
@@ -138,6 +174,29 @@ MongoClient.connect(
               success: false,
               message: "Error: Emailadres al in gebruik."
             });
+
+          // let newImg = fs.readFileSync(req.file.path);
+          // let encImg = newImg.toString("base64");
+
+          // const user = {
+          //   geslacht: geslacht,
+          //   voornaam: voornaam,
+          //   tussenvoegsel: tussenvoegsel,
+          //   achternaam: achternaam,
+          //   geboortedatum: geboortedatum,
+          //   bigregnr: bigregnr,
+          //   straatnaam: straatnaam,
+          //   huisnummer: huisnummer,
+          //   toevoeging: toevoeging,
+          //   postcode: postcode,
+          //   plaatsnaam: plaatsnaam,
+          //   telefoon: telefoon,
+          //   email: email,
+          //   email2: email2,
+          //   vaardigheid: vaardigheid,
+          //   specialisme: specialisme,
+          //   profilePic: Buffer(encImg, "base64")
+          // };
 
           const user = new User();
           user.geslacht = geslacht;
@@ -156,17 +215,29 @@ MongoClient.connect(
           user.email2 = email2;
           user.vaardigheid = vaardigheid;
           user.specialisme = specialisme;
+          user.profilePic.data = fs.readFileSync(req.file.path);
 
-          dbase.collection("users").save(user, (err, result) => {
+          dbase.collection("users").insertOne(user, (err, result) => {
             if (err) {
+              console.log(err);
               return res.send({
                 success: false,
                 message: "Error: Server error"
               });
             }
-            res.send({
-              success: true,
-              message: "User has been saved on server"
+            var newoid = new ObjectId(result.ops[0]._id);
+            fs.remove(req.file.path, function(err) {
+              if (err) {
+                console.log(err);
+                return res.send({
+                  success: false,
+                  message: "Error: Server error"
+                });
+              }
+              res.send({
+                success: true,
+                message: "User has been saved on server"
+              });
             });
           });
         });
