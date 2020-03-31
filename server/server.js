@@ -4,14 +4,15 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs-extra");
-const util = require("util");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
 const User = require("../server/models/User");
 const keys = require("../server/config/keys");
 
 const storage = multer.diskStorage({
-  destination: "./public/",
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/");
+  },
   filename: function(req, file, cb) {
     cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
   }
@@ -51,7 +52,7 @@ MongoClient.connect(
         .collection("users")
         .find()
         .toArray((err, result) => {
-          if (!err) return res.send(result);
+          if (!err) res.send(result);
         });
     });
 
@@ -175,28 +176,8 @@ MongoClient.connect(
               message: "Error: Emailadres al in gebruik."
             });
 
-          // let newImg = fs.readFileSync(req.file.path);
-          // let encImg = newImg.toString("base64");
-
-          // const user = {
-          //   geslacht: geslacht,
-          //   voornaam: voornaam,
-          //   tussenvoegsel: tussenvoegsel,
-          //   achternaam: achternaam,
-          //   geboortedatum: geboortedatum,
-          //   bigregnr: bigregnr,
-          //   straatnaam: straatnaam,
-          //   huisnummer: huisnummer,
-          //   toevoeging: toevoeging,
-          //   postcode: postcode,
-          //   plaatsnaam: plaatsnaam,
-          //   telefoon: telefoon,
-          //   email: email,
-          //   email2: email2,
-          //   vaardigheid: vaardigheid,
-          //   specialisme: specialisme,
-          //   profilePic: Buffer(encImg, "base64")
-          // };
+          let newImg = fs.readFileSync(req.file.path);
+          let encImg = newImg.toString("base64");
 
           const user = new User();
           user.geslacht = geslacht;
@@ -215,7 +196,8 @@ MongoClient.connect(
           user.email2 = email2;
           user.vaardigheid = vaardigheid;
           user.specialisme = specialisme;
-          user.profilePic.data = fs.readFileSync(req.file.path);
+          user.profilePic.data = Buffer.from(encImg, "base64");
+          user.profilePic.contentType = req.file.mimetype;
 
           dbase.collection("users").insertOne(user, (err, result) => {
             if (err) {

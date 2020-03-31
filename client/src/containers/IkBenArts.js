@@ -97,9 +97,6 @@ class IkBenArts extends React.Component {
 
     fetch("/api/user/signup", {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "multipart/form-data"
-      // },
       body: formData
     })
       .then(res => res.json())

@@ -29,6 +29,14 @@ class AllUsers extends React.Component {
     });
   };
 
+  test = () => {
+    for (var i = 0; i < this.state.users.length; i++) {
+      let bla = this.state.users[i].profilePic.data;
+      var jaja = bla.decode(bla);
+    }
+    return jaja;
+  };
+
   render() {
     return (
       <div>
@@ -46,12 +54,19 @@ class AllUsers extends React.Component {
             <span className="notfound-text">Probeer een andere naam.</span>
           ) : (
             <div>
+              {console.log(this.state.users)}
               {this.state.users.map((item, index) => (
                 <div className="user-card" key={index}>
                   <span className="user-card-voornaam">{item.voornaam}</span>
                   <span className="user-card-achternaam">
                     {item.achternaam}
                   </span>
+                  {console.log(item.profilePic.data)}
+
+                  <img
+                    src={`data:image/jp;base64,${item.profilePic}`}
+                    alt={item.voornaam}
+                  />
                 </div>
               ))}
             </div>

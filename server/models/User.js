@@ -79,8 +79,8 @@ const UserSchema = new Schema({
     required: true
   },
   vaardigheid: {
-    BLS: { type: Boolean },
-    ALS: { type: Boolean }
+    BLS: Boolean,
+    ALS: Boolean
   },
   specialisme: {
     type: String,
