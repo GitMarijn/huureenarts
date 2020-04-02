@@ -1,18 +1,61 @@
-.user-card {
-  color: black;
+.searchbar {
+  display: flex;
+  border-radius: 4px;
+  justify-content: center;
 }
 
-.searchbar {
+.searchbar > input {
+  height: 30px;
+  border: solid 1px #0099d5;
+  margin: 5px 0 5px 0;
+  padding: 0 5px 0 5px;
   border-radius: 4px;
+  width: 100%;
+  color: #0099d5;
 }
 
 .user-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 15px;
+  letter-spacing: 0.41pt;
+  min-height: calc(100vh - 410px);
 }
 
 .user-card {
-  height: 300px;
-  width: 200px;
+  color: #0099d5;
+  height: 240px;
+  width: 160px;
   display: flex;
+  flex-direction: column;
+  border: solid 2px #c6c6c6;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.user-card-top {
+  display: flex;
+  height: 66.66%;
+  width: 100%;
+  justify-content: center;
+}
+
+.user-card-bottom {
+  display: flex;
+  height: 33.33%;
+  width: 100%;
+  padding: 2px;
+}
+
+.profilePic {
+  height: auto;
+  width: 100%;
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+}
+
+.voornaam {
+  height: fit-content;
 }

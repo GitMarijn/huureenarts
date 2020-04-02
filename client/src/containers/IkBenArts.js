@@ -397,16 +397,16 @@ class IkBenArts extends React.Component {
                 <option value="Anesthesiologie">Anesthesiologie</option>
                 <option value="Bedrijfsgeneeskunde">Bedrijfsgeneeskunde</option>
                 <option value="Dermatologie">Dermatologie</option>
-                <option value="Gynaecologie_en_verloskunde">
+                <option value="Gynaecologie en verloskunde">
                   Gynaecologie en verloskunde
                 </option>
                 <option value="Huisartsgeneeskunde">Huisartsgeneeskunde</option>
-                <option value="Interne_geneeskunde">Interne geneeskunde</option>
-                <option value="Keel-neus-oorheelkunde_(KNO)">
+                <option value="Interne geneeskunde">Interne geneeskunde</option>
+                <option value="Keel-neus-oorheelkunde (KNO)">
                   Keel-neus-oorheelkunde (KNO)
                 </option>
                 <option value="Kindergeneeskunde">Kindergeneeskunde</option>
-                <option value="Medische_microbiologie">
+                <option value="Medische microbiologie">
                   Medische microbiologie
                 </option>
                 <option value="Neurologie">Neurologie</option>
@@ -415,7 +415,7 @@ class IkBenArts extends React.Component {
                 <option value="Pathologie">Pathologie</option>
                 <option value="Psychiatrie">Psychiatrie</option>
                 <option value="Radiologie">Radiologie</option>
-                <option value="Spoedeisende_Hulp">Spoedeisende Hulp</option>
+                <option value="Spoedeisende Hulp">Spoedeisende Hulp</option>
                 <option value="Verzekeringsgeneeskunde">
                   Verzekeringsgeneeskunde
                 </option>

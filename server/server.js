@@ -202,24 +202,19 @@ MongoClient.connect(
           dbase.collection("users").insertOne(user, (err, result) => {
             if (err) {
               console.log(err);
-              return res.send({
+              res.send({
                 success: false,
                 message: "Error: Server error"
               });
-            }
-            var newoid = new ObjectId(result.ops[0]._id);
-            fs.remove(req.file.path, function(err) {
-              if (err) {
-                console.log(err);
-                return res.send({
-                  success: false,
-                  message: "Error: Server error"
-                });
-              }
-              res.send({
-                success: true,
-                message: "User has been saved on server"
+              fs.remove(req.file.path, function(err) {
+                if (err) {
+                  console.log(err);
+                }
               });
+            }
+            res.send({
+              success: true,
+              message: "User has been saved on server"
             });
           });
         });

@@ -1,4 +1,5 @@
 import React from "react";
+import defaultUser from "../assets/images/default-user-image.png";
 import "../assets/styles/style_HuurEenArts.css";
 
 class AllUsers extends React.Component {
@@ -23,24 +24,20 @@ class AllUsers extends React.Component {
         return true;
       return false;
     });
-
     this.setState({
       users: filtered
     });
   };
 
-  test = () => {
-    for (var i = 0; i < this.state.users.length; i++) {
-      let bla = this.state.users[i].profilePic.data;
-      var jaja = bla.decode(bla);
-    }
-    return jaja;
-  };
+  calcAge(dateString) {
+    var birthday = +new Date(dateString);
+    return ~~((Date.now() - birthday) / 31557600000);
+  }
 
   render() {
     return (
       <div>
-        <div className="searchbar">
+        <div className="searchbar col-sm-12">
           <input
             type="text"
             id="filter"
@@ -49,24 +46,27 @@ class AllUsers extends React.Component {
           />
         </div>
 
-        <div className="user-container">
+        <div>
           {this.state.users.length === 0 ? (
             <span className="notfound-text">Probeer een andere naam.</span>
           ) : (
-            <div>
+            <div className="user-container col-sm-12">
               {console.log(this.state.users)}
               {this.state.users.map((item, index) => (
                 <div className="user-card" key={index}>
-                  <span className="user-card-voornaam">{item.voornaam}</span>
-                  <span className="user-card-achternaam">
-                    {item.achternaam}
-                  </span>
-                  {console.log(item.profilePic.data)}
-
-                  <img
-                    src={`data:image/jp;base64,${item.profilePic}`}
-                    alt={item.voornaam}
-                  />
+                  <div className="user-card-top">
+                    <img
+                      src={`data:image/${item.profilePic.contentType};base64, ${item.profilePic.data}`}
+                      alt={item.voornaam}
+                      className="profilePic"
+                    />
+                  </div>
+                  <div className="user-card-bottom">
+                    <span className="voornaam">{item.voornaam}</span>
+                    <span className="geboortedatum">
+                      {this.calcAge(item.geboortedatum)}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>

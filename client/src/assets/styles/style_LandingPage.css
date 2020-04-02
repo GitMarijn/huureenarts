@@ -118,8 +118,8 @@
 
 .ervaringen_sample > img:hover {
   opacity: 1;
-  filter: grayscale(0);
-  -webkit-filter: grayscale(0);
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
 }
 
 .contact_container {
