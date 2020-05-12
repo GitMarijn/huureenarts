@@ -75,23 +75,16 @@
   bottom: 0;
 }
 
-.wiezijnwij_text {
-  margin: auto;
-  margin-top: 10px;
-  width: 80%;
-}
-
+.wiezijnwij_text,
 .ervaringen_text {
   margin: auto;
   margin-top: 10px;
-  width: 80%;
-  text-align: center;
+  z-index: 1;
 }
 
 .ervaringen_container {
   display: flex;
   margin: auto;
-  width: 80%;
   margin-top: 40px;
   justify-content: space-between;
   margin-bottom: 84px;
@@ -107,6 +100,7 @@
 
 .ervaringen_sample > img {
   width: 100%;
+  height: auto;
   opacity: 0.5;
   filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
@@ -118,8 +112,8 @@
 
 .ervaringen_sample > img:hover {
   opacity: 1;
-  filter: grayscale(100%);
-  -webkit-filter: grayscale(100%);
+  filter: grayscale(0);
+  -webkit-filter: grayscale(0);
 }
 
 .contact_container {
@@ -147,5 +141,38 @@
   .landingpage > span {
     width: 150px;
     font-size: 28px;
+  }
+
+  .fa-chevron-down {
+    display: none;
+  }
+
+  .ervaringen_container {
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 0 0;
+  }
+
+  .ervaringen_sample {
+    margin-bottom: 10px;
+  }
+
+  .ervaringen_sample > img {
+    width: 100%;
+    opacity: 1;
+    filter: grayscale(0);
+    -webkit-filter: grayscale(0);
+  }
+
+  .ervaringen_text {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  .ervaringen_text,
+  .ervaringen_container,
+  .wiezijnwij_text {
+    width: 75%;
   }
 }

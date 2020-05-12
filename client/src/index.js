@@ -9,7 +9,7 @@ import { rootReducer } from "./store/reducers/rootReducer";
 import LandingPage from "./containers/LandingPage";
 import IkBenArts from "./containers/IkBenArts";
 import SignUpConfirmation from "../src/containers/SignUpConfirmation";
-import HuurEenArts from "../src/containers/HuurEenArts";
+import HuurEenArts from "./containers/HuurEenArts";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

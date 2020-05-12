@@ -26,51 +26,51 @@ class IkBenArts extends React.Component {
       specialisme: "",
       vaardigheid: {
         BLS: false,
-        ALS: false
+        ALS: false,
       },
-      profilePic: null
+      profilePic: null,
     };
   }
 
   componentDidMount() {
     this.setState({
-      isLoading: false
+      isLoading: false,
     });
 
     document.title = "Ik ben arts -  Huur een arts";
   }
 
-  loadImage = event => {
+  loadImage = (event) => {
     let image = document.getElementById("output");
     let icon = document.getElementById("userIcon");
     this.setState({
-      profilePic: event.target.files[0]
+      profilePic: event.target.files[0],
     });
 
     image.src = URL.createObjectURL(event.target.files[0]);
     icon.parentNode.removeChild(icon);
   };
 
-  handleChecked = event => {
+  handleChecked = (event) => {
     let updatedCheckbox = Object.assign({}, this.state.vaardigheid, {
-      [event.target.name]: event.target.checked
+      [event.target.name]: event.target.checked,
     });
     this.setState({
-      vaardigheid: updatedCheckbox
+      vaardigheid: updatedCheckbox,
     });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
 
     const formData = new FormData();
@@ -89,18 +89,20 @@ class IkBenArts extends React.Component {
     formData.append("telefoon", this.state.telefoon);
     formData.append("email", this.state.email);
     formData.append("email2", this.state.email2);
-    formData.append("vaardigheid", this.state.vaardigheid);
+    formData.append("BLS", this.state.vaardigheid.BLS);
+    formData.append("ALS", this.state.vaardigheid.ALS);
     formData.append("specialisme", this.state.specialisme);
     formData.append("image", this.state.profilePic);
 
     console.log(...formData);
+    console.log(this.state.vaardigheid);
 
     fetch("/api/user/signup", {
       method: "POST",
-      body: formData
+      body: formData,
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         console.log("json", json);
         if (json.success) {
           this.setState({
@@ -122,16 +124,16 @@ class IkBenArts extends React.Component {
             email2: "",
             vaardigheid: {
               BLS: false,
-              ALS: false
+              ALS: false,
             },
             specialisme: "",
-            profilePic: null
+            profilePic: null,
           });
           this.props.history.push("/ikbenarts/confirmation");
         } else {
           this.setState({
             signUpError: json.message,
-            isLoading: false
+            isLoading: false,
           });
         }
       });
@@ -145,6 +147,41 @@ class IkBenArts extends React.Component {
 
         <div className="heading_text">
           <span>Ik ben arts</span>
+        </div>
+
+        <div className="copy-text col-sm-12">
+          <span>
+            Ben je werkzaam als BIG geregistreerd arts en heb je minimaal een
+            BLS diploma? Wil je jouw medische expertise inzetten bij foto- en
+            videoshoots? Vul dan onderstaand formulier in en we zoeken een
+            geschikte opdracht bij één van onze opdrachtgevers.
+            <br></br>
+            <br></br>
+            We zijn op zoek naar artsen die achter de schermen eerste hulp
+            kunnen verlenen aan o.a. modellen, acteurs of figuranten op een
+            foto- of videoshoot van bijvoorbeeld TV-commercials, TV-shows of
+            films.
+            <br></br>
+            <br></br>
+            Ook zijn we op zoek naar artsen die het leuk vinden om vóór de
+            camera te staan om bijvoorbeeld:
+            <br></br>
+            <br></br>
+            <ul>
+              <li>
+                Een medische handeling uit te voeren voor een film of commercial
+              </li>
+              <li>
+                Medisch advies te geven over een bepaald product of dienst in
+                een TV-show of commercial
+              </li>
+              <li>Te figureren als arts</li>
+            </ul>
+          </span>
+        </div>
+
+        <div className="heading_text">
+          <span>Aanmeldingsformulier</span>
         </div>
 
         <form
@@ -227,7 +264,7 @@ class IkBenArts extends React.Component {
                 type="text"
                 className="form-control"
                 id="geboortedatum"
-                onFocus={e => (e.target.type = "date")}
+                onFocus={(e) => (e.target.type = "date")}
                 placeholder="Geboortedatum*"
                 name="geboortedatum"
                 required
@@ -242,6 +279,8 @@ class IkBenArts extends React.Component {
                 placeholder="BIG-registratienummer*"
                 name="bigregnr"
                 required
+                minLength="11"
+                maxLength="11"
                 onChange={this.handleChange}
               />
             </div>
@@ -335,6 +374,7 @@ class IkBenArts extends React.Component {
                 placeholder="Emailadres*"
                 name="email"
                 required
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 onChange={this.handleChange}
               />
             </div>

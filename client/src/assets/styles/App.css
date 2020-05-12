@@ -5,8 +5,10 @@ body {
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
+  scroll-behavior: smooth;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 17px;
+  font-size: 13pt;
+  letter-spacing: -0.41pt;
 }
 
 header {
@@ -35,26 +37,20 @@ nav {
   margin-bottom: 5px;
 }
 
-li {
+.header-list {
   list-style: none;
   margin-right: 25px;
   width: 70px;
   display: flex;
+  inline-size: auto;
+}
+
+.headerlist:hover {
+  text-decoration: underline solid #c6c6c6;
 }
 
 ul li:last-child {
   margin-right: 0;
-}
-
-a:link,
-a:visited,
-a:active {
-  color: white;
-  text-decoration: none;
-}
-
-li:hover {
-  text-decoration: underline solid #c6c6c6;
 }
 
 .headercenter {
@@ -90,7 +86,20 @@ li:hover {
   justify-content: center;
   margin-top: -64px;
   padding-top: 84px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.41pt;
+  position: relative;
+}
+
+.heading_text::before {
+  content: "";
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  width: 95%;
+  border-bottom: 1px solid #c6c6c6;
 }
 
 .footer {
@@ -118,6 +127,20 @@ li:hover {
   flex-direction: row;
   padding: 0;
   margin: 0;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.ul-mobile > a {
+  display: inline-block;
+}
+
+.link:link,
+.link:visited,
+.link:active {
+  color: white;
+  text-decoration: none;
+  letter-spacing: 0.41pt;
 }
 
 @media only screen and (max-width: 850px) {

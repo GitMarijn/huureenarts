@@ -7,24 +7,27 @@ function Header() {
       <header className="row">
         <nav className="col-4">
           <ul className="ul-header">
-            <li>
-              <a href="/#wie_zijn_wij">Wie zijn wij</a>
+            <li className="header-list">
+              <a className="link" href="/#wie_zijn_wij">
+                Wie zijn wij
+              </a>
             </li>
-            <li>
-              <a href="/#diensten">Diensten</a>
+            <li className="header-list">
+              <a className="link" href="/#ervaringen">
+                Ervaringen
+              </a>
             </li>
-            <li>
-              <a href="/#ervaringen">Ervaringen</a>
-            </li>
-            <li>
-              <a href="/#contact">Contact</a>
+            <li className="header-list">
+              <a className="link" href="/#contact">
+                Contact
+              </a>
             </li>
           </ul>
         </nav>
 
         <div className="headercenter col-4">
           <div className="headertext_wrapper">
-            <Link to="/home">
+            <Link className="link" to="/home">
               <div className="headertext">Huur</div>
               <div className="headertext">een</div>
               <div className="headertext">arts</div>
@@ -37,16 +40,21 @@ function Header() {
       <div className="mobile-nav col-12">
         <ul className="ul-mobile">
           <li>
-            <a href="/#wie_zijn_wij">Wie zijn wij</a>
+            <nobr>
+              <a className="link" href="/#wie_zijn_wij">
+                Wie zijn wij
+              </a>
+            </nobr>
           </li>
           <li>
-            <a href="/#diensten">Diensten</a>
+            <a className="link" href="/#ervaringen">
+              Ervaringen
+            </a>
           </li>
           <li>
-            <a href="/#ervaringen">Ervaringen</a>
-          </li>
-          <li>
-            <a href="/#contact">Contact</a>
+            <a className="link" href="/#contact">
+              Contact
+            </a>
           </li>
         </ul>
       </div>

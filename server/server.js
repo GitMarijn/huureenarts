@@ -5,7 +5,6 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs-extra");
 const MongoClient = require("mongodb").MongoClient;
-const ObjectId = require("mongodb").ObjectId;
 const User = require("../server/models/User");
 const keys = require("../server/config/keys");
 
@@ -13,9 +12,9 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads/");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
-  }
+  },
 });
 
 const fileFilter = (req, file, cb) => {
@@ -26,7 +25,7 @@ const fileFilter = (req, file, cb) => {
   ) {
     cb(null, true);
   } else {
-    cb(new Error("Image uploaded is not of type .jpg/.jpeg or .png"), false);
+    cb(new Error("Image uploaded is not .jpg/.jpeg or .png"), false);
   }
 };
 
@@ -47,7 +46,7 @@ MongoClient.connect(
       console.log(`app working on ${port}`);
     });
 
-    router.get("/users", function(req, res) {
+    router.get("/users", function (req, res) {
       dbase
         .collection("users")
         .find()
@@ -72,8 +71,9 @@ MongoClient.connect(
         telefoon,
         email,
         email2,
-        vaardigheid,
-        specialisme
+        BLS,
+        ALS,
+        specialisme,
       } = req.body;
 
       const profilePic = req.file;
@@ -83,85 +83,85 @@ MongoClient.connect(
       if (!geslacht) {
         return res.send({
           success: false,
-          message: "Error: Geslacht is required"
+          message: "Error: Geslacht is required",
         });
       }
       if (!voornaam) {
         return res.send({
           success: false,
-          message: "Error: Voornaam is required"
+          message: "Error: Voornaam is required",
         });
       }
       if (!achternaam) {
         return res.send({
           success: false,
-          message: "Error: Achternaam is required"
+          message: "Error: Achternaam is required",
         });
       }
       if (!geboortedatum) {
         return res.send({
           success: false,
-          message: "Error: Geboortedatum is required"
+          message: "Error: Geboortedatum is required",
         });
       }
       if (!bigregnr) {
         return res.send({
           success: false,
-          message: "Error: BIG-registratienummer is required"
+          message: "Error: BIG-registratienummer is required",
         });
       }
       if (!straatnaam) {
         return res.send({
           success: false,
-          message: "Error: Straatnaam is required"
+          message: "Error: Straatnaam is required",
         });
       }
       if (!huisnummer) {
         return res.send({
           success: false,
-          message: "Error: Huisnummer is required"
+          message: "Error: Huisnummer is required",
         });
       }
       if (!postcode) {
         return res.send({
           success: false,
-          message: "Error: Postcode is required"
+          message: "Error: Postcode is required",
         });
       }
       if (!plaatsnaam) {
         return res.send({
           success: false,
-          message: "Error: Plaatsnaam is required"
+          message: "Error: Plaatsnaam is required",
         });
       }
       if (!telefoon) {
         return res.send({
           success: false,
-          message: "Error: Telefoonnummer is required"
+          message: "Error: Telefoonnummer is required",
         });
       }
       if (!email) {
         return res.send({
           success: false,
-          message: "Error: Email is required"
+          message: "Error: Email is required",
         });
       }
       if (!email2) {
         return res.send({
           success: false,
-          message: "Error: Emailverificatie is required"
+          message: "Error: Emailverificatie is required",
         });
       }
       if (!specialisme) {
         return res.send({
           success: false,
-          message: "Error: Specialisme is required"
+          message: "Error: Specialisme is required",
         });
       }
       if (!profilePic) {
         return res.send({
           success: false,
-          message: "Error: Photo is required"
+          message: "Error: Photo is required",
         });
       }
 
@@ -169,11 +169,11 @@ MongoClient.connect(
         .collection("users")
         .find()
         .toArray((err, result) => {
-          let existingUser = result.filter(user => user.email == email);
+          let existingUser = result.filter((user) => user.email == email);
           if (existingUser.length > 0)
             return res.send({
               success: false,
-              message: "Error: Emailadres al in gebruik."
+              message: "Error: Emailadres al in gebruik.",
             });
 
           let newImg = fs.readFileSync(req.file.path);
@@ -194,7 +194,8 @@ MongoClient.connect(
           user.telefoon = telefoon;
           user.email = email;
           user.email2 = email2;
-          user.vaardigheid = vaardigheid;
+          user.BLS = BLS;
+          user.ALS = ALS;
           user.specialisme = specialisme;
           user.profilePic.data = Buffer.from(encImg, "base64");
           user.profilePic.contentType = req.file.mimetype;
@@ -204,9 +205,9 @@ MongoClient.connect(
               console.log(err);
               res.send({
                 success: false,
-                message: "Error: Server error"
+                message: "Error: Server error",
               });
-              fs.remove(req.file.path, function(err) {
+              fs.remove(req.file.path, function (err) {
                 if (err) {
                   console.log(err);
                 }
@@ -214,7 +215,7 @@ MongoClient.connect(
             }
             res.send({
               success: true,
-              message: "User has been saved on server"
+              message: "User has been saved on server",
             });
           });
         });

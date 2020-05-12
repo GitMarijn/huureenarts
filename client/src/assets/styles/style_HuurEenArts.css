@@ -2,6 +2,10 @@
   display: flex;
   border-radius: 4px;
   justify-content: center;
+  position: sticky;
+  top: 80px;
+  z-index: 5;
+  background-color: white;
 }
 
 .searchbar > input {
@@ -19,43 +23,67 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  font-size: 15px;
   letter-spacing: 0.41pt;
   min-height: calc(100vh - 410px);
 }
 
 .user-card {
-  color: #0099d5;
+  color: white;
   height: 240px;
-  width: 160px;
+  width: 168px;
   display: flex;
   flex-direction: column;
   border: solid 2px #c6c6c6;
   border-radius: 4px;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .user-card-top {
   display: flex;
-  height: 66.66%;
+  height: 100%;
   width: 100%;
   justify-content: center;
 }
 
 .user-card-bottom {
   display: flex;
-  height: 33.33%;
+  position: absolute;
+  flex-direction: column;
+  height: 40%;
   width: 100%;
-  padding: 2px;
+  padding: 2px 5px 2px 5px;
+  background-color: #0099d582;
+  z-index: 4;
+  bottom: 0;
 }
 
 .profilePic {
+  object-fit: cover;
   height: auto;
   width: 100%;
   filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
 }
 
-.voornaam {
-  height: fit-content;
+.specialisme,
+.leeftijd {
+  font-size: 13px;
+}
+
+.copy-text {
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.user-wrapper {
+  margin: auto;
+}
+
+@media only screen and (min-width: 500px) {
+  .copy-text,
+  .user-wrapper {
+    width: 75%;
+  }
 }

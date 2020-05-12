@@ -6,14 +6,14 @@ class AllUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [...this.props.users]
+      users: [...this.props.users],
     };
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     const value = event.target.value;
 
-    let filtered = this.props.users.filter(user => {
+    let filtered = this.props.users.filter((user) => {
       let voornaam = user.voornaam.toLowerCase();
       let achternaam = user.achternaam.toLowerCase();
 
@@ -25,7 +25,7 @@ class AllUsers extends React.Component {
       return false;
     });
     this.setState({
-      users: filtered
+      users: filtered,
     });
   };
 
@@ -36,7 +36,7 @@ class AllUsers extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="user-wrapper">
         <div className="searchbar col-sm-12">
           <input
             type="text"
@@ -63,8 +63,11 @@ class AllUsers extends React.Component {
                   </div>
                   <div className="user-card-bottom">
                     <span className="voornaam">{item.voornaam}</span>
-                    <span className="geboortedatum">
-                      {this.calcAge(item.geboortedatum)}
+                    <span className="leeftijd">
+                      Leeftijd: {this.calcAge(item.geboortedatum)}
+                    </span>
+                    <span className="specialisme">
+                      Specialisme: {item.specialisme}
                     </span>
                   </div>
                 </div>
