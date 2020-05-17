@@ -6,6 +6,29 @@
             "type": "string",
             "defaultValue": "wouter-ac"
         },
+        "aspName": {
+            "type": "string",
+            "defaultValue": "wouter-asp"
+        },
+        "hostingEnvironment": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "sku": {
+            "type": "string"
+        },
+        "skuCode": {
+            "type": "string"
+        },
+        "workerSize": {
+            "type": "string"
+        },
+        "workerSizeId": {
+            "type": "string"
+        },
+        "numberOfWorkers": {
+            "type": "string"
+        },
         "locationName": {
             "type": "string"
         },
@@ -13,8 +36,30 @@
             "type": "string"
         }
     },
-    "variables": {},
+    "variables": {
+    },
     "resources": [
+        {
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('aspName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "kind": "linux",
+            "tags": {
+            },
+            "properties": {
+                "name": "[parameters('aspName')]",
+                "workerSize": "[parameters('workerSize')]",
+                "workerSizeId": "[parameters('workerSizeId')]",
+                "numberOfWorkers": "[parameters('numberOfWorkers')]",
+                "reserved": true,
+                "hostingEnvironment": "[parameters('hostingEnvironment')]"
+            },
+            "sku": {
+                "Tier": "[parameters('sku')]",
+                "Name": "[parameters('skuCode')]"
+            }
+        },
         {
             "apiVersion": "2019-12-12",
             "kind": "MongoDB",
@@ -32,9 +77,11 @@
                 ],
                 "enableMultipleWriteLocations": false,
                 "isVirtualNetworkFilterEnabled": false,
-                "virtualNetworkRules": [],
+                "virtualNetworkRules": [
+                ],
                 "ipRangeFilter": "",
-                "dependsOn": [],
+                "dependsOn": [
+                ],
                 "capabilities": [
                     {
                         "name": "EnableMongo"
@@ -52,5 +99,8 @@
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+    }
 }
+
+/* https://github.com/azure-appservice-samples/NodeJS-EmptySiteTemplate/blob/master/azuredeploy.json */

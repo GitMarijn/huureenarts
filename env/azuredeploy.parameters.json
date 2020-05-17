@@ -5,11 +5,29 @@
         "name": {
             "value": "wouter-ac"
         },
+        "aspName": {
+            "value": "wouter-asp"
+        },
         "locationName": {
             "value": "West Europe"
         },
         "defaultExperience": {
             "value": "Azure Cosmos DB for MongoDB API"
+        },
+        "sku": {
+            "value": "Free"
+        },
+        "skuCode": {
+            "value": "F1"
+        },
+        "workerSize": {
+            "value": "0"
+        },
+        "workerSizeId": {
+            "value": "0"
+        },
+        "numberOfWorkers": {
+            "value": "1"
         }
     }
 }
