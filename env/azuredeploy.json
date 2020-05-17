@@ -1,0 +1,56 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string",
+            "defaultValue": "wouter-ac"
+        },
+        "locationName": {
+            "type": "string"
+        },
+        "defaultExperience": {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "apiVersion": "2019-12-12",
+            "kind": "MongoDB",
+            "type": "Microsoft.DocumentDb/databaseAccounts",
+            "name": "[parameters('name')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "databaseAccountOfferType": "Standard",
+                "locations": [
+                    {
+                        "id": "[concat(parameters('name'), '-', resourceGroup().location)]",
+                        "failoverPriority": 0,
+                        "locationName": "[parameters('locationName')]"
+                    }
+                ],
+                "enableMultipleWriteLocations": false,
+                "isVirtualNetworkFilterEnabled": false,
+                "virtualNetworkRules": [],
+                "ipRangeFilter": "",
+                "dependsOn": [],
+                "capabilities": [
+                    {
+                        "name": "EnableMongo"
+                    },
+                    {
+                        "name": "DisableRateLimitingResponses"
+                    }
+                ],
+                "enableFreeTier": true
+            },
+            "tags": {
+                "defaultExperience": "[parameters('defaultExperience')]",
+                "hidden-cosmos-mmspecial": "",
+                "CosmosAccountType": "Non-Production"
+            }
+        }
+    ],
+    "outputs": {}
+}
