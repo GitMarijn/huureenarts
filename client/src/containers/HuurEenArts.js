@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import AllUsers from "../components/AllUsers";
 import { connect } from "react-redux";
 import * as actionCreator from "../store/actions/actions";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class HuurEenArts extends React.Component {
   componentDidMount() {
@@ -14,7 +15,7 @@ class HuurEenArts extends React.Component {
   }
 
   render() {
-    if (this.props.usersIsLoading) return <div>Loading...</div>;
+    if (this.props.usersIsLoading) return <LoadingSpinner />;
     return (
       <React.Fragment>
         <Header />
@@ -42,7 +43,7 @@ class HuurEenArts extends React.Component {
             in shoots.
             <br></br>
             <br></br>
-            Alle artsen in ons bestand zijn BIG geregistreerd en momenteel
+            Alle artsen in ons bestand zijn BIG-geregistreerd en momenteel
             werkzaam in de gezondheidszorg. Ze beschikken over alle
             noodzakelijke kennis om eerste hulp te verlenen en belangrijke
             medische adviezen on the spot te geven.

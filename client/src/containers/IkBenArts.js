@@ -3,6 +3,7 @@ import "../assets/styles/App.css";
 import "../assets/styles/style_IkBenArts.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 class IkBenArts extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class IkBenArts extends React.Component {
         ALS: false,
       },
       profilePic: null,
+      errors: [],
     };
   }
 
@@ -64,6 +66,16 @@ class IkBenArts extends React.Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  };
+
+  handleErrors = () => {
+    const errorList = this.state.errors;
+    const errors = [];
+    const array = errorList.map(Object.values);
+
+    array.forEach((error, index) => errors.push(<li key={index}>{error}</li>));
+
+    return <ul>{errors}</ul>;
   };
 
   handleSubmit = (event) => {
@@ -106,7 +118,6 @@ class IkBenArts extends React.Component {
         console.log("json", json);
         if (json.success) {
           this.setState({
-            signUpError: json.message,
             isLoading: false,
             geslacht: "",
             voornaam: "",
@@ -128,19 +139,21 @@ class IkBenArts extends React.Component {
             },
             specialisme: "",
             profilePic: null,
+            errors: [],
           });
           this.props.history.push("/ikbenarts/confirmation");
         } else {
           this.setState({
-            signUpError: json.message,
             isLoading: false,
+            errors: json.errors,
           });
         }
+        console.log(this.state.errors);
       });
   };
 
   render() {
-    if (this.state.isLoading) return <div>Loading...</div>;
+    if (this.state.isLoading) return <LoadingSpinner />;
     return (
       <div>
         <Header />
@@ -151,8 +164,8 @@ class IkBenArts extends React.Component {
 
         <div className="copy-text col-sm-12">
           <span>
-            Ben je werkzaam als BIG geregistreerd arts en heb je minimaal een
-            BLS diploma? Wil je jouw medische expertise inzetten bij foto- en
+            Ben je werkzaam als BIG-geregistreerd arts en heb je minimaal een
+            BLS-diploma? Wil je jouw medische expertise inzetten bij foto- en
             videoshoots? Vul dan onderstaand formulier in en we zoeken een
             geschikte opdracht bij één van onze opdrachtgevers.
             <br></br>
@@ -182,6 +195,10 @@ class IkBenArts extends React.Component {
 
         <div className="heading_text">
           <span>Aanmeldingsformulier</span>
+        </div>
+
+        <div className="error-container col-sm-12">
+          {this.state.errors.length > 0 && this.handleErrors()}
         </div>
 
         <form
@@ -235,6 +252,7 @@ class IkBenArts extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
+
             <div className="form-group col-sm-4">
               <input
                 type="text"
@@ -276,7 +294,7 @@ class IkBenArts extends React.Component {
                 type="number"
                 className="form-control"
                 id="bigreg"
-                placeholder="BIG-registratienummer*"
+                placeholder="11-cijferig BIG-nummer*"
                 name="bigregnr"
                 required
                 minLength="11"

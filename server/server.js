@@ -7,6 +7,7 @@ const fs = require("fs-extra");
 const MongoClient = require("mongodb").MongoClient;
 const User = require("../server/models/User");
 const keys = require("../server/config/keys");
+const { check, validationResult } = require("express-validator");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -55,171 +56,166 @@ MongoClient.connect(
         });
     });
 
-    router.post("/user/signup", upload.single("image"), (req, res) => {
-      const {
-        geslacht,
-        voornaam,
-        tussenvoegsel,
-        achternaam,
-        geboortedatum,
-        bigregnr,
-        straatnaam,
-        huisnummer,
-        toevoeging,
-        postcode,
-        plaatsnaam,
-        telefoon,
-        email,
-        email2,
-        BLS,
-        ALS,
-        specialisme,
-      } = req.body;
+    router.post(
+      "/user/signup",
+      upload.single("image"),
+      [
+        check("voornaam")
+          .isLength({ min: 2 })
+          .withMessage("Voornaam: Voer een geldige naam in.")
+          .matches(/^[A-Za-z\s-]+$/)
+          .withMessage("Voornaam: Voer hier alleen letters (A-Z) in.")
+          .trim(),
+        check("tussenvoegsel")
+          .optional({ checkFalsy: true })
+          .matches(/^[A-Za-z\s-]+$/)
+          .withMessage("Tussenvoegsel: Voer hier alleen letters (A-Z) in.")
+          .trim(),
+        check("achternaam")
+          .isLength({ min: 2 })
+          .withMessage("Achternaam: Voer een geldige naam in.")
+          .matches(/^[A-Za-z\s-]+$/)
+          .withMessage("Achternaam: Voer hier alleen letters (A-Z) in.")
+          .trim(),
+        check("geboortedatum")
+          .not()
+          .isEmpty()
+          .withMessage("Voer een geboortedatum in."),
+        check("bigregnr")
+          .isNumeric({ no_symbols: true })
+          .withMessage("BIG-nummer: Voer hier alleen cijfers (0-9) in.")
+          .isLength({ min: 11, max: 11 })
+          .withMessage(
+            "BIG-nummer moet uit 11 cijfers bestaan. Bestaat uw nummer uit 10 of 9 cijfers, voeg dan 1 respectievelijk 2 keer een nul toe voor het nummer."
+          )
+          .trim(),
+        check("straatnaam")
+          .isLength({ min: 2 })
+          .withMessage("Voer een geldige straatnaam in.")
+          .matches(/^[A-Za-z\s-]+$/)
+          .withMessage("Straatnaam: Voer hier alleen letters (A-Z) in.")
+          .trim(),
+        check("huisnummer")
+          .isNumeric({ no_symbols: true })
+          .withMessage("Huisnummer: Voer hier alleen cijfers (0-9) in.")
+          .trim(),
+        check("postcode")
+          .isPostalCode("NL")
+          .withMessage("Voer een geldige postcode in.")
+          .trim(),
+        check("plaatsnaam")
+          .isLength({ min: 2 })
+          .withMessage("Voer een geldige plaatsnaam in.")
+          .matches(/^[A-Za-z\s-]+$/)
+          .withMessage("Plaatsnaam: Voer hier alleen letters (A-Z) in.")
+          .trim(),
+        check("telefoon")
+          .isMobilePhone("nl-NL")
+          .withMessage("Voer een geldig telefoonnummer in.")
+          .isLength({ min: 2 }),
+        check("email")
+          .isEmail()
+          .withMessage("Voer een geldig emailadres in.")
+          .bail()
+          .trim()
+          .normalizeEmail(),
+        check("email2").isEmail().normalizeEmail().trim(),
+      ],
+      (req, res) => {
+        const errors = validationResult(req);
+        const extractedErrors = [];
+        errors
+          .array()
+          .map((err) => extractedErrors.push({ [err.param]: err.msg }));
+        if (!errors.isEmpty()) {
+          return res.status(422).json({ errors: extractedErrors });
+        }
 
-      const profilePic = req.file;
-      console.log("Request ---", req.body);
-      console.log("Request file ---", req.file);
+        const {
+          geslacht,
+          voornaam,
+          tussenvoegsel,
+          achternaam,
+          geboortedatum,
+          bigregnr,
+          straatnaam,
+          huisnummer,
+          toevoeging,
+          postcode,
+          plaatsnaam,
+          telefoon,
+          email,
+          email2,
+          BLS,
+          ALS,
+          specialisme,
+        } = req.body;
 
-      if (!geslacht) {
-        return res.send({
-          success: false,
-          message: "Error: Geslacht is required",
-        });
-      }
-      if (!voornaam) {
-        return res.send({
-          success: false,
-          message: "Error: Voornaam is required",
-        });
-      }
-      if (!achternaam) {
-        return res.send({
-          success: false,
-          message: "Error: Achternaam is required",
-        });
-      }
-      if (!geboortedatum) {
-        return res.send({
-          success: false,
-          message: "Error: Geboortedatum is required",
-        });
-      }
-      if (!bigregnr) {
-        return res.send({
-          success: false,
-          message: "Error: BIG-registratienummer is required",
-        });
-      }
-      if (!straatnaam) {
-        return res.send({
-          success: false,
-          message: "Error: Straatnaam is required",
-        });
-      }
-      if (!huisnummer) {
-        return res.send({
-          success: false,
-          message: "Error: Huisnummer is required",
-        });
-      }
-      if (!postcode) {
-        return res.send({
-          success: false,
-          message: "Error: Postcode is required",
-        });
-      }
-      if (!plaatsnaam) {
-        return res.send({
-          success: false,
-          message: "Error: Plaatsnaam is required",
-        });
-      }
-      if (!telefoon) {
-        return res.send({
-          success: false,
-          message: "Error: Telefoonnummer is required",
-        });
-      }
-      if (!email) {
-        return res.send({
-          success: false,
-          message: "Error: Email is required",
-        });
-      }
-      if (!email2) {
-        return res.send({
-          success: false,
-          message: "Error: Emailverificatie is required",
-        });
-      }
-      if (!specialisme) {
-        return res.send({
-          success: false,
-          message: "Error: Specialisme is required",
-        });
-      }
-      if (!profilePic) {
-        return res.send({
-          success: false,
-          message: "Error: Photo is required",
-        });
-      }
+        const profilePic = req.file;
 
-      dbase
-        .collection("users")
-        .find()
-        .toArray((err, result) => {
-          let existingUser = result.filter((user) => user.email == email);
-          if (existingUser.length > 0)
-            return res.send({
-              success: false,
-              message: "Error: Emailadres al in gebruik.",
-            });
+        if (!profilePic) {
+          return res.send({
+            success: false,
+            message: "Error: Foto is vereist",
+          });
+        }
 
-          let newImg = fs.readFileSync(req.file.path);
-          let encImg = newImg.toString("base64");
-
-          const user = new User();
-          user.geslacht = geslacht;
-          user.voornaam = voornaam;
-          user.tussenvoegsel = tussenvoegsel;
-          user.achternaam = achternaam;
-          user.geboortedatum = geboortedatum;
-          user.bigregnr = bigregnr;
-          user.straatnaam = straatnaam;
-          user.huisnummer = huisnummer;
-          user.toevoeging = toevoeging;
-          user.postcode = postcode;
-          user.plaatsnaam = plaatsnaam;
-          user.telefoon = telefoon;
-          user.email = email;
-          user.email2 = email2;
-          user.BLS = BLS;
-          user.ALS = ALS;
-          user.specialisme = specialisme;
-          user.profilePic.data = Buffer.from(encImg, "base64");
-          user.profilePic.contentType = req.file.mimetype;
-
-          dbase.collection("users").insertOne(user, (err, result) => {
-            if (err) {
-              console.log(err);
-              res.send({
+        dbase
+          .collection("users")
+          .find()
+          .toArray((err, result) => {
+            let existingUser = result.filter((user) => user.email == email);
+            if (existingUser.length > 0)
+              return res.send({
                 success: false,
-                message: "Error: Server error",
+                message: "Error: Emailadres al in gebruik.",
               });
-              fs.remove(req.file.path, function (err) {
-                if (err) {
-                  console.log(err);
-                }
+
+            let newImg = fs.readFileSync(req.file.path);
+            let encImg = newImg.toString("base64");
+
+            const user = new User();
+            user.geslacht = geslacht;
+            user.voornaam = voornaam;
+            user.tussenvoegsel = tussenvoegsel;
+            user.achternaam = achternaam;
+            user.geboortedatum = geboortedatum;
+            user.bigregnr = bigregnr;
+            user.straatnaam = straatnaam;
+            user.huisnummer = huisnummer;
+            user.toevoeging = toevoeging;
+            user.postcode = postcode;
+            user.plaatsnaam = plaatsnaam;
+            user.telefoon = telefoon;
+            user.email = email;
+            user.email2 = email2;
+            user.BLS = BLS;
+            user.ALS = ALS;
+            user.specialisme = specialisme;
+            user.profilePic.data = Buffer.from(encImg, "base64");
+            user.profilePic.contentType = req.file.mimetype;
+
+            dbase.collection("users").insertOne(user, (err, result) => {
+              if (err) {
+                console.log(err);
+                res.send({
+                  success: false,
+                  message: "Error: Server error",
+                });
+                fs.remove(req.file.path, function (err) {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+              }
+              res.send({
+                success: true,
+                message: "User has been saved on server",
               });
-            }
-            res.send({
-              success: true,
-              message: "User has been saved on server",
             });
           });
-        });
-    });
+      }
+    );
 
     app.use("/api", router);
   }

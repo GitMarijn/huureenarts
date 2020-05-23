@@ -5,6 +5,10 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 class SignUpConfirmation extends React.Component {
+  componentDidMount() {
+    document.title = "Huur een arts - Bedankt voor je aanmelding!";
+  }
+
   render() {
     return (
       <React.Fragment>

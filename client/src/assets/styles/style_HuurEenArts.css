@@ -4,13 +4,13 @@
   justify-content: center;
   position: sticky;
   top: 80px;
-  z-index: 5;
+  z-index: 4;
   background-color: white;
 }
 
 .searchbar > input {
   height: 30px;
-  border: solid 1px #0099d5;
+  border: solid 2px #0099d5;
   margin: 5px 0 5px 0;
   padding: 0 5px 0 5px;
   border-radius: 4px;
@@ -22,8 +22,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
-  letter-spacing: 0.41pt;
+  justify-content: space-around;
   min-height: calc(100vh - 410px);
 }
 
@@ -37,6 +36,7 @@
   border-radius: 4px;
   margin-bottom: 15px;
   position: relative;
+  cursor: pointer;
 }
 
 .user-card-top {
@@ -50,11 +50,12 @@
   display: flex;
   position: absolute;
   flex-direction: column;
+  justify-content: space-between;
   height: 40%;
   width: 100%;
   padding: 2px 5px 2px 5px;
-  background-color: #0099d582;
-  z-index: 4;
+  background-color: #0099d5d1;
+  z-index: 3;
   bottom: 0;
 }
 
@@ -68,7 +69,12 @@
 
 .specialisme,
 .leeftijd {
-  font-size: 13px;
+  font-size: 12px;
+}
+
+.voornaam {
+  letter-spacing: 0.41pt;
+  font-weight: bold;
 }
 
 .copy-text {
@@ -81,9 +87,35 @@
   margin: auto;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 640px) {
   .copy-text,
   .user-wrapper {
     width: 75%;
+  }
+
+  .user-container {
+    justify-content: space-between;
+  }
+
+  .user-card {
+    height: 420px;
+    width: 280px;
+  }
+
+  .user-card-bottom {
+    height: 27%;
+  }
+
+  .specialisme,
+  .leeftijd {
+    font-size: 17px;
+  }
+
+  .searchbar {
+    top: 82px;
+  }
+
+  .voornaam {
+    font-size: 21px;
   }
 }

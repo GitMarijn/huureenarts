@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -8,19 +9,22 @@ function Header() {
         <nav className="col-4">
           <ul className="ul-header">
             <li className="header-list">
-              <a className="link" href="/#wie_zijn_wij">
-                Wie zijn wij
-              </a>
+              <NavLink
+                className="link"
+                activeClassName="active"
+                to="/huureenarts"
+              >
+                Huur een arts
+              </NavLink>
             </li>
             <li className="header-list">
-              <a className="link" href="/#ervaringen">
-                Ervaringen
-              </a>
-            </li>
-            <li className="header-list">
-              <a className="link" href="/#contact">
-                Contact
-              </a>
+              <NavLink
+                className="link"
+                activeClassName="active"
+                to="/ikbenarts"
+              >
+                Ik ben arts
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -41,20 +45,15 @@ function Header() {
         <ul className="ul-mobile">
           <li>
             <nobr>
-              <a className="link" href="/#wie_zijn_wij">
-                Wie zijn wij
-              </a>
+              <NavLink className="link" to="/huureenarts">
+                Huur een arts
+              </NavLink>
             </nobr>
           </li>
           <li>
-            <a className="link" href="/#ervaringen">
-              Ervaringen
-            </a>
-          </li>
-          <li>
-            <a className="link" href="/#contact">
-              Contact
-            </a>
+            <NavLink className="link" to="/ikbenarts">
+              Ik ben arts
+            </NavLink>
           </li>
         </ul>
       </div>

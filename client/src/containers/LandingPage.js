@@ -56,7 +56,15 @@ class LandingPage extends React.Component {
           <span>
             Ben je op zoek naar een arts voor jouw productie? Neem dan{" "}
             <Link to="/huureenarts">hier</Link> een kijkje of verstuur een
-            aanvraag via het contactformulier.
+            aanvraag via de{" "}
+            <a
+              href="mailto:info@huureenarts.nl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              mail
+            </a>
+            .
           </span>
           <br></br>
           <br></br>

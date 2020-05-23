@@ -96,6 +96,10 @@ input[type="checkbox"] ~ label {
   height: auto;
 }
 
+.image_text {
+  text-align: center;
+}
+
 .fa-user {
   font-size: 72px;
 }
@@ -117,6 +121,21 @@ ul li::before {
   display: inline-block;
   width: 1em;
   margin-left: -1em;
+}
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  background-color: #ff00006b;
+  font-size: 13px;
+}
+
+.error-container ul {
+  padding-top: 1rem;
+}
+.error-message {
+  display: flex;
+  color: red;
 }
 
 @media only screen and (min-width: 500px) {

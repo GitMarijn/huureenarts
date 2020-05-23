@@ -34,6 +34,20 @@ class AllUsers extends React.Component {
     return ~~((Date.now() - birthday) / 31557600000);
   }
 
+  sendMail = (name) => {
+    let fname = name;
+    let body =
+      "Hierbij wil ik graag meer informatie opvragen over het inhuren van " +
+      fname +
+      " als arts.";
+    window.open(
+      "mailto:info@huureenarts.nl?Subject=Informatieverzoek " +
+        fname +
+        `&body=` +
+        body
+    );
+  };
+
   render() {
     return (
       <div className="user-wrapper">
@@ -51,9 +65,12 @@ class AllUsers extends React.Component {
             <span className="notfound-text">Probeer een andere naam.</span>
           ) : (
             <div className="user-container col-sm-12">
-              {console.log(this.state.users)}
               {this.state.users.map((item, index) => (
-                <div className="user-card" key={index}>
+                <div
+                  className="user-card"
+                  key={index}
+                  onClick={() => this.sendMail(item.voornaam)}
+                >
                   <div className="user-card-top">
                     <img
                       src={`data:image/${item.profilePic.contentType};base64, ${item.profilePic.data}`}
