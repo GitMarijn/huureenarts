@@ -120,6 +120,12 @@ MongoClient.connect(
           .trim()
           .normalizeEmail(),
         check("email2").isEmail().normalizeEmail().trim(),
+        check("isAkkoord")
+          .toBoolean()
+          .equals("true")
+          .withMessage(
+            "Je moet akkoord gaan met de algemene voorwaarden om verder te gaan."
+          ),
       ],
       (req, res) => {
         const errors = validationResult(req);
@@ -149,6 +155,7 @@ MongoClient.connect(
           BLS,
           ALS,
           specialisme,
+          isAkkoord,
         } = req.body;
 
         const profilePic = req.file;
@@ -194,6 +201,7 @@ MongoClient.connect(
             user.specialisme = specialisme;
             user.profilePic.data = Buffer.from(encImg, "base64");
             user.profilePic.contentType = req.file.mimetype;
+            user.isAkkoord = isAkkoord;
 
             dbase.collection("users").insertOne(user, (err, result) => {
               if (err) {

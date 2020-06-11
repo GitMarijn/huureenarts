@@ -4,95 +4,99 @@ const keys = require("../config/keys");
 
 mongoose.connect(keys.mongoURI, {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 
 const UserSchema = new Schema({
   geslacht: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   voornaam: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   tussenvoegsel: {
     type: String,
     default: "",
-    required: false
+    required: false,
   },
   achternaam: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   geboortedatum: {
     type: Date,
     default: Date.now,
-    required: true
+    required: true,
   },
   bigregnr: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   straatnaam: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   huisnummer: {
     type: Number,
     default: "",
-    required: true
+    required: true,
   },
   toevoeging: {
     type: String,
     default: "",
-    required: false
+    required: false,
   },
   postcode: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   plaatsnaam: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   telefoon: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   email: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   email2: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   BLS: {
-    type: Boolean
+    type: Boolean,
   },
   ALS: {
-    type: Boolean
+    type: Boolean,
   },
   specialisme: {
     type: String,
     default: "",
-    required: true
+    required: true,
   },
   profilePic: {
     data: Buffer,
-    contentType: String
-  }
+    contentType: String,
+  },
+  isAkkoord: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);

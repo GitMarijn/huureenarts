@@ -6,16 +6,18 @@
   top: 80px;
   z-index: 4;
   background-color: white;
+  margin-bottom: 10px;
 }
 
 .searchbar > input {
   height: 30px;
-  border: solid 2px #0099d5;
+  border: solid 2px #f6f6f6;
   margin: 5px 0 5px 0;
-  padding: 0 5px 0 5px;
-  border-radius: 4px;
+  padding: 0 10px 0 10px;
+  border-radius: 8px;
   width: 100%;
   color: #0099d5;
+  background-color: #f6f6f6;
 }
 
 .user-container {
@@ -85,6 +87,12 @@
 
 .user-wrapper {
   margin: auto;
+}
+
+.notfound-text {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 20px 0;
 }
 
 @media only screen and (min-width: 640px) {

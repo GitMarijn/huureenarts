@@ -40,6 +40,7 @@
   display: flex;
   width: 50%;
   height: calc(100vh - 80px);
+  height: -webkit-calc(100vh - 80px);
   background-color: #0099d5;
   color: white;
 }
@@ -48,6 +49,7 @@
   display: flex;
   width: 50%;
   height: calc(100vh - 80px);
+  height: -webkit-calc(100vh - 80px);
   color: #0099d5;
 }
 

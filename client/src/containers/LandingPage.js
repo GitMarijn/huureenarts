@@ -71,7 +71,7 @@ class LandingPage extends React.Component {
           <span>
             Ben je zelf arts en lijkt het je leuk om een keer een opname bij te
             wonen of zelfs een rol te vervullen als arts in een film of serie?
-            Schrijf je dan <Link to="/ikbenarts#top">hier</Link> in.
+            Schrijf je dan <Link to="/ikbenarts">hier</Link> in.
           </span>
         </div>
 

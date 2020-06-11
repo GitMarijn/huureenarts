@@ -9,6 +9,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 17px;
+  font-weight: 300;
 }
 
 .lds-container {
@@ -69,6 +70,7 @@ header {
 
 .active {
   text-decoration: underline solid;
+  -webkit-text-decoration: underline solid;
 }
 
 nav {
@@ -94,6 +96,7 @@ nav {
 
 .header-list > a:hover {
   text-decoration: underline solid;
+  -webkit-text-decoration: underline solid;
 }
 
 ul li:last-child {
@@ -138,6 +141,7 @@ ul li:last-child {
   letter-spacing: 0.41pt;
   position: relative;
   margin-top: 20px;
+  font-weight: 400;
 }
 
 .heading_text::before {
@@ -148,7 +152,7 @@ ul li:last-child {
   right: 0;
   bottom: 0;
   height: 1px;
-  width: 95%;
+  width: 33%;
   border-bottom: 1px solid #c6c6c6;
 }
 

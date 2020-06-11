@@ -30,7 +30,9 @@ class IkBenArts extends React.Component {
         ALS: false,
       },
       profilePic: null,
+      isAkkoord: false,
       errors: [],
+      alternateError: "",
     };
   }
 
@@ -38,7 +40,6 @@ class IkBenArts extends React.Component {
     this.setState({
       isLoading: false,
     });
-
     document.title = "Ik ben arts -  Huur een arts";
   }
 
@@ -59,6 +60,7 @@ class IkBenArts extends React.Component {
     });
     this.setState({
       vaardigheid: updatedCheckbox,
+      [event.target.name]: event.target.checked,
     });
   };
 
@@ -105,9 +107,9 @@ class IkBenArts extends React.Component {
     formData.append("ALS", this.state.vaardigheid.ALS);
     formData.append("specialisme", this.state.specialisme);
     formData.append("image", this.state.profilePic);
+    formData.append("isAkkoord", this.state.isAkkoord);
 
     console.log(...formData);
-    console.log(this.state.vaardigheid);
 
     fetch("/api/user/signup", {
       method: "POST",
@@ -139,16 +141,24 @@ class IkBenArts extends React.Component {
             },
             specialisme: "",
             profilePic: null,
+            isAkkoord: false,
             errors: [],
+            alternateError: "",
           });
           this.props.history.push("/ikbenarts/confirmation");
-        } else {
+        } else if (json.errors) {
           this.setState({
             isLoading: false,
             errors: json.errors,
+            alternateError: "",
+          });
+        } else {
+          this.setState({
+            isLoading: false,
+            alternateError: json.message,
+            errors: [],
           });
         }
-        console.log(this.state.errors);
       });
   };
 
@@ -199,6 +209,14 @@ class IkBenArts extends React.Component {
 
         <div className="error-container col-sm-12">
           {this.state.errors.length > 0 && this.handleErrors()}
+        </div>
+
+        <div className="error-container col-sm-12">
+          {this.state.alternateError !== "" && (
+            <ul>
+              <li>{this.state.alternateError}</li>
+            </ul>
+          )}
         </div>
 
         <form
@@ -505,6 +523,24 @@ class IkBenArts extends React.Component {
                 <img id="output" alt="" />
                 <div className="far fa-user" id="userIcon"></div>
               </div>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group col-sm-4 submit_button">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                name="isAkkoord"
+                id="isAkkoord"
+                required
+                onChange={this.handleChecked}
+                value={this.state.isAkkoord}
+              />
+              <label className="form-check-label" htmlFor="isAkkoord">
+                Ik heb de <a href="#">Algemene Voorwaarden</a> gelezen en ga
+                akkoord.
+              </label>
             </div>
           </div>
 
