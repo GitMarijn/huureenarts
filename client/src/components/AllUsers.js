@@ -52,8 +52,9 @@ class AllUsers extends React.Component {
     return (
       <div className="user-wrapper">
         <div className="searchbar col-sm-12">
+          <span className="fa fa-search"></span>
           <input
-            type="text"
+            type="search"
             id="filter"
             onChange={this.handleChange}
             placeholder="Zoek op naam..."
