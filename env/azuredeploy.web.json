@@ -72,7 +72,7 @@
                     {
                         "id": "[concat(parameters('name'), '-', resourceGroup().location)]",
                         "failoverPriority": 0,
-                        "locationName": "[parameters('locationName')]"
+                        "locationName": "[resourceGroup().location]"
                     }
                 ],
                 "enableMultipleWriteLocations": false,
