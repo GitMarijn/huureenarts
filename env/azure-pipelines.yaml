@@ -1,0 +1,32 @@
+name: depl-web
+
+trigger:
+  branches:
+    include:
+      - master
+      - features/*
+  paths:
+    exclude:
+      - ./*.md
+      - ./**/*.md
+
+stages:
+  - stage: prod
+    variables:
+      defaultLocation: westeurope
+      resourceGroupName: rg-we-huureenarts-prod
+      resourceGroupSecretsName: rg-we-huureenarts-secrets-prod
+    displayName: production
+    jobs:
+      - job: prod_deployment
+        displayName: production deployment
+        steps:
+          - task: AzureCLI@2
+            displayName: create resource groups
+            inputs:
+              azureSubscription: xxx # TODO: fill in name service connection
+              scriptType: ps
+              scriptLocation: inlinescript
+              inlineScript:
+                az group create -n ${{ variables.resourceGroupName }} -l ${{ variables.defaultLocation }}
+                az group create -n ${{ variables.resourceGroupSecretsName }} -l ${{ variables.defaultLocation }}
